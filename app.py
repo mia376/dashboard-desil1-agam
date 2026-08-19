@@ -196,10 +196,19 @@ st.markdown(f"""
         border-radius: 6px;
         border: 1px solid rgba(255,255,255,0.35);
     }}
-    section[data-testid="stSidebar"] div[data-baseweb="select"] * {{
+    section[data-testid="stSidebar"] div[data-baseweb="select"] *,
+    section[data-testid="stSidebar"] [data-testid="stSelectbox"] *,
+    section[data-testid="stSidebar"] [data-testid="stSelectbox"] div,
+    section[data-testid="stSidebar"] [data-testid="stSelectbox"] span,
+    section[data-testid="stSidebar"] [data-testid="stSelectbox"] p {{
         background-color: transparent !important;
         color: #FFFFFF !important;
         -webkit-text-fill-color: #FFFFFF !important;
+    }}
+    section[data-testid="stSidebar"] [data-testid="stSelectbox"] > div {{
+        background-color: rgba(255,255,255,0.12) !important;
+        border-radius: 6px;
+        border: 1px solid rgba(255,255,255,0.35);
     }}
     /* Dropdown menu (daftar pilihan) yang muncul ke bawah tetap pakai latar terang & teks gelap
        agar tetap mudah dibaca, karena menu ini dirender di luar konteks warna sidebar */
