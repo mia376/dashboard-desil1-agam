@@ -179,33 +179,46 @@ st.markdown(f"""
         background: rgba(255,255,255,0.20);
         border-color: #FFFFFF;
     }}
+
+    /* ============================================================
+       KOTAK SELECT / MULTISELECT DI SIDEBAR (mis. "Pilih Jenis Data")
+       Diperbaiki: sebelumnya CSS hanya menimpa latar div/span di
+       level tertentu (`div[data-baseweb="select"] div`), sehingga
+       kalau versi Streamlit/tema browser membuat struktur HTML atau
+       warna dasar BaseWeb yang berbeda, latar aslinya (putih) bisa
+       "bocor" ke permukaan sementara teks tetap dipaksa putih —
+       hasilnya teks putih di atas latar putih (tidak kelihatan).
+       Sekarang dipakai wildcard `*` di SEMUA elemen turunan supaya
+       tidak bergantung pada berapa level div yang dibuat Streamlit,
+       dan warna latar dipaksa transparan sekaligus di induknya. */
     section[data-testid="stSidebar"] div[data-baseweb="select"] {{
         background: rgba(255,255,255,0.12) !important;
         border-radius: 6px;
         border: 1px solid rgba(255,255,255,0.35);
     }}
-    /* Semua lapisan div/span di DALAM kotak select dipaksa transparan — sebelumnya hanya
-       lapisan terluar yang di-styling, sementara lapisan asli (putih bawaan Streamlit)
-       di bagian dalam tetap putih sehingga teks putih jadi tidak terbaca (putih di atas putih) */
-    section[data-testid="stSidebar"] div[data-baseweb="select"] > div,
-    section[data-testid="stSidebar"] div[data-baseweb="select"] div {{
-        background: transparent !important;
-    }}
-    section[data-testid="stSidebar"] div[data-baseweb="select"] div,
-    section[data-testid="stSidebar"] div[data-baseweb="select"] span,
-    section[data-testid="stSidebar"] div[data-baseweb="select"] input {{
+    section[data-testid="stSidebar"] div[data-baseweb="select"] * {{
+        background-color: transparent !important;
         color: #FFFFFF !important;
         -webkit-text-fill-color: #FFFFFF !important;
     }}
     /* Dropdown menu (daftar pilihan) yang muncul ke bawah tetap pakai latar terang & teks gelap
        agar tetap mudah dibaca, karena menu ini dirender di luar konteks warna sidebar */
+    div[data-baseweb="popover"] div[data-baseweb="menu"] {{
+        background-color: #FFFFFF !important;
+    }}
     div[data-baseweb="popover"] div[data-baseweb="menu"] li,
     div[data-baseweb="popover"] div[data-baseweb="menu"] li * {{
+        background-color: transparent !important;
         color: #1F2937 !important;
         -webkit-text-fill-color: #1F2937 !important;
     }}
     section[data-testid="stSidebar"] div[data-baseweb="tag"] {{
         background: rgba(255,255,255,0.25) !important;
+    }}
+    section[data-testid="stSidebar"] div[data-baseweb="tag"] * {{
+        background-color: transparent !important;
+        color: #FFFFFF !important;
+        -webkit-text-fill-color: #FFFFFF !important;
     }}
 
     /* Dropdown multiselect bisa di-scroll rapi */
