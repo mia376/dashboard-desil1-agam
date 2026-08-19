@@ -179,9 +179,30 @@ st.markdown(f"""
         background: rgba(255,255,255,0.20);
         border-color: #FFFFFF;
     }}
-    section[data-testid="stSidebar"] div[data-baseweb="select"] > div {{
-        background: rgba(255,255,255,0.10);
+    section[data-testid="stSidebar"] div[data-baseweb="select"] {{
+        background: rgba(255,255,255,0.12) !important;
         border-radius: 6px;
+        border: 1px solid rgba(255,255,255,0.35);
+    }}
+    /* Semua lapisan div/span di DALAM kotak select dipaksa transparan — sebelumnya hanya
+       lapisan terluar yang di-styling, sementara lapisan asli (putih bawaan Streamlit)
+       di bagian dalam tetap putih sehingga teks putih jadi tidak terbaca (putih di atas putih) */
+    section[data-testid="stSidebar"] div[data-baseweb="select"] > div,
+    section[data-testid="stSidebar"] div[data-baseweb="select"] div {{
+        background: transparent !important;
+    }}
+    section[data-testid="stSidebar"] div[data-baseweb="select"] div,
+    section[data-testid="stSidebar"] div[data-baseweb="select"] span,
+    section[data-testid="stSidebar"] div[data-baseweb="select"] input {{
+        color: #FFFFFF !important;
+        -webkit-text-fill-color: #FFFFFF !important;
+    }}
+    /* Dropdown menu (daftar pilihan) yang muncul ke bawah tetap pakai latar terang & teks gelap
+       agar tetap mudah dibaca, karena menu ini dirender di luar konteks warna sidebar */
+    div[data-baseweb="popover"] div[data-baseweb="menu"] li,
+    div[data-baseweb="popover"] div[data-baseweb="menu"] li * {{
+        color: #1F2937 !important;
+        -webkit-text-fill-color: #1F2937 !important;
     }}
     section[data-testid="stSidebar"] div[data-baseweb="tag"] {{
         background: rgba(255,255,255,0.25) !important;
@@ -514,8 +535,8 @@ st.markdown(f"""
 st.markdown(f"""
 <div class="dashboard-header">
     <div>
-        <h1>📊 DASHBOARD VISUALISASI DATA DESIL 1–5 KABUPATEN AGAM</h1>
-        <p>Visualisasi dan Pemetaan Data Berdasarkan Kecamatan di Kabupaten Agam</p>
+        <h1>📊 Dashboard Pemantauan Data Kecamatan</h1>
+        <p>Menyajikan data, peringkat, dan sebaran nilai per kecamatan di Kabupaten Agam</p>
     </div>
     <span class="live-badge"><span class="live-dot"></span> Data Aktif</span>
 </div>
@@ -673,7 +694,7 @@ st.markdown("---")
 # =====================================================================
 # 8. GRAFIK PERBANDINGAN PER KECAMATAN
 # =====================================================================
-st.subheader("📊 Perbandingan Data Kesejahteraan Antar Kecamatan")
+st.subheader("📊 Perbandingan Nilai per Kecamatan")
 
 fig1 = buat_grafik_batang(df_filtered, "KECAMATAN", "TOTAL", f"Data {selected_dataset}")
 fig1.update_layout(xaxis_tickangle=-45, xaxis_title="Kecamatan", yaxis_title="Total Nilai")
